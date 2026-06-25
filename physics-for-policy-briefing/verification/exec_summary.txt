@@ -1,0 +1,9 @@
+Fusion energy is close to the grid. Private firms aim to deliver power in the early 2030s. So regulators must decide how to license fusion plants now.
+
+Fusion is not like fission. There is no chain reaction. There is no meltdown risk. There is no long-lived high-level waste. The reaction stops within seconds on its own. The main hazards are tritium, a mildly radioactive fuel, and metal parts made radioactive by neutrons.
+
+Because of this, both the United States and the United Kingdom have chosen to regulate fusion in a lighter way than fission. The US uses its byproduct material rules. The UK has ruled that fusion plants do not need a nuclear site licence. Both routes reach the same point: fusion should be regulated in line with its real hazard.
+
+But some risks are still contested or unknown. We do not yet know the true volume of radioactive waste. We do not know the exact date of the first commercial plant. A regime that is too heavy would stall a low-hazard industry. A regime that is too light could miss a hazard and break public trust.
+
+This briefing weighs four options. We recommend a proportionate but adaptive framework. It keeps the light, hazard-based core. It adds clear rules for tritium release, worker safety, and waste. And it builds in regular reviews tied to new evidence and to global standards set by the IAEA. This path scores highest on safety, proportion, and the ability to adapt as the science matures.

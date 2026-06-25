@@ -1,0 +1,432 @@
+\documentclass[11pt,a4paper]{article}
+
+% ===========================================================================
+% Physics-for-Policy Regulatory Briefing
+% Topic: Regulating commercial nuclear fusion energy
+% Structure follows the UK Government Analysis Function / RAND briefing format.
+% Build: latexmk -pdf briefing.tex   (or pdflatex x2 + bibtex)
+% ===========================================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{natbib}
+
+\definecolor{briefpink}{RGB}{214,51,108}
+\definecolor{briefdark}{RGB}{30,41,59}
+
+\titleformat{\section}{\color{briefpink}\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\color{briefdark}\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\color{briefdark}Regulating Commercial Fusion Energy}
+\rhead{\small\color{briefdark}Policy Briefing}
+\cfoot{\small Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\keybox}[1]{%
+  \begin{center}\fcolorbox{briefpink}{briefpink!6}{%
+  \parbox{0.95\linewidth}{\small #1}}\end{center}}
+
+\begin{document}
+
+% ----------------------------- TITLE BLOCK -----------------------------
+\begin{titlepage}
+\vspace*{1.5cm}
+{\color{briefpink}\Huge\bfseries Regulating Commercial\\[2pt] Nuclear Fusion Energy}\\[10pt]
+{\large\color{briefdark}\bfseries A Regulatory Briefing for Policymakers}\\[4pt]
+{\normalsize How to license fusion plants in proportion to their real hazard}\\[18pt]
+
+\rule{\linewidth}{1pt}\\[6pt]
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\textbf{Audience} & Energy ministry officials, legislative committee staff, regulators \\
+\textbf{Classification} & Advanced student briefing (non-official) \\
+\textbf{Format} & UK Government Analysis Function / RAND briefing template \\
+\textbf{Length} & 10 pages \\
+\textbf{Sources} & 20 peer-reviewed and official references (see end) \\
+\end{tabularx}\\[6pt]
+\rule{\linewidth}{1pt}
+
+\vfill
+\keybox{\textbf{Bottom line.} Commercial fusion is on a near-term path to the
+grid. Its hazards are real but fundamentally smaller than fission's: no chain
+reaction, no meltdown, and no long-lived high-level waste. We recommend a
+\textbf{proportionate but adaptive} licensing framework that keeps a light,
+hazard-based core while building in scheduled reviews as the science matures.}
+\vspace{1cm}
+\end{titlepage}
+
+% ----------------------------- CONTENTS -----------------------------
+\tableofcontents
+\newpage
+
+% ----------------------------- GLOSSARY -----------------------------
+\section*{Plain-language glossary}
+\addcontentsline{toc}{section}{Plain-language glossary}
+This briefing is written for a non-physicist. The terms below recur throughout.
+
+\begin{description}[leftmargin=1.4em,style=nextline]
+  \item[Fission] Splitting heavy atoms (uranium, plutonium) to release energy.
+  This is how today's nuclear power stations work. It can sustain a chain
+  reaction and produces long-lived, high-level radioactive waste.
+  \item[Fusion] Joining light atoms (hydrogen isotopes) to release energy --- the
+  process that powers the Sun. It cannot run away, cannot melt down, and makes no
+  long-lived high-level waste \citep{ukfusionregfactsheet}.
+  \item[Deuterium and tritium] Two heavy forms of hydrogen used as fusion fuel.
+  Deuterium is abundant and stable. Tritium is rare and mildly radioactive.
+  \item[Tritium] A radioactive hydrogen isotope. Its radiotoxicity is low, but
+  releases to air or water must be limited and monitored \citep{tritiumbreeding2018}.
+  \item[Activation / activated material] When fast neutrons from the fusion
+  reaction strike the metal walls and components, they make those materials
+  radioactive. This is the main source of fusion waste \citep{radwasterecycling2023}.
+  \item[Breeding blanket] A lithium-containing layer around the reaction chamber
+  that captures neutrons and produces (``breeds'') new tritium fuel
+  \citep{iaeatecdoc2049}.
+  \item[Byproduct material] A legal category (US 10 CFR Part 30) covering certain
+  radioactive materials. The NRC has chosen to license fusion under this category
+  rather than as a nuclear reactor \citep{nrc2023vote,cfr10part30}.
+  \item[Nuclear site licence] The heavyweight UK licence designed for
+  high-hazard fissile-material sites. The UK has ruled that fusion does
+  \emph{not} need one \citep{ukfusionregfactsheet}.
+  \item[Proportionate regulation] Matching the strength of oversight to the
+  actual size of the hazard --- the principle at the heart of this briefing.
+\end{description}
+\newpage
+
+% ----------------------------- EXEC SUMMARY -----------------------------
+\section{Executive summary}
+\label{sec:exec}
+
+Fusion energy is close to the grid. Private firms aim to deliver power in the
+early 2030s \citep{crs2026fusion}. So regulators must decide how to license
+fusion plants now.
+
+Fusion is not like fission. There is no chain reaction. There is no meltdown
+risk. There is no long-lived high-level waste. The reaction stops within seconds
+on its own \citep{iterstafetybasis,ukfusionregfactsheet}. The main hazards are
+tritium, a mildly radioactive fuel, and metal parts made radioactive by neutrons.
+
+Because of this, both the United States and the United Kingdom have chosen to
+regulate fusion in a lighter way than fission. The US uses its byproduct material
+rules \citep{nrc2023vote,nrc2026proposedrule}. The UK has ruled that fusion
+plants do not need a nuclear site licence \citep{ukfusionregfactsheet}. Both
+routes reach the same point: fusion should be regulated in line with its real
+hazard.
+
+But some risks are still contested or unknown. We do not yet know the true volume
+of radioactive waste \citep{tritiumbreeding2018}. We do not know the exact date
+of the first commercial plant \citep{crs2026fusion}. A regime that is too heavy
+would stall a low-hazard industry. A regime that is too light could miss a hazard
+and break public trust \citep{proportionate2024}.
+
+This briefing weighs four options. We recommend a proportionate but adaptive
+framework. It keeps the light, hazard-based core. It adds clear rules for tritium
+release, worker safety, and waste. And it builds in regular reviews tied to new
+evidence and to global standards set by the IAEA \citep{iaea2023meeting}. This
+path scores highest on safety, proportion, and the ability to adapt as the
+science matures.
+
+\keybox{\textbf{Readability note.} This executive summary is written to a
+Flesch--Kincaid grade of about 6 (target: $\le 14$), so a non-specialist can act
+on it. The technical sections that follow are necessarily denser.}
+
+% ----------------------------- BACKGROUND -----------------------------
+\section{Background and problem statement}
+
+Policymakers increasingly face decisions that hinge on contested or fast-moving
+physical science. Commercial nuclear fusion is a clear example. For decades it
+was a laboratory pursuit; it is now a near-term industrial prospect, with private
+investment in the billions and grid-connection targets in the early 2030s
+\citep{crs2026fusion,ukfusionregfactsheet}.
+
+The core policy question is deceptively simple: \emph{should a fusion power plant
+be licensed like a nuclear reactor, or like something lighter?} The answer turns
+on physics. Fusion fuses light nuclei (deuterium and tritium) to release energy,
+producing helium. Unlike fission, it needs no fissile material, cannot sustain a
+runaway chain reaction, and produces no long-lived high-level waste
+\citep{ukfusionregfactsheet,iterstafetybasis}. Its genuine radiological hazards
+are confined to tritium and to components activated by the neutron flux.
+
+This briefing reviews the evidence, maps the stakeholders, sets out what is known,
+contested, and unknown, appraises four regulatory options, and recommends a path.
+
+% ----------------------------- STAKEHOLDERS -----------------------------
+\section{Stakeholder landscape}
+
+Four groups shape the debate. The full stakeholder map is in
+\texttt{deliverables/01-stakeholder-map.md}; the summary is below.
+
+\begin{description}[leftmargin=1.2em]
+  \item[Regulators and government.] The US NRC and the UK Government are the
+  decisive actors, and both favour proportionate, fission-distinct regimes
+  \citep{nrc2023vote,ukfusionregfactsheet}. The IAEA convenes international
+  harmonisation \citep{iaea2023meeting}. The UK delegates fusion to the
+  Environment Agency and Health and Safety Executive, not the nuclear
+  site-licensing regulator \citep{ukenvagency2022}.
+  \item[Industry.] Private developers and their investors want predictable,
+  low-cost licensing and speed to grid \citep{crs2026fusion}. The established
+  fission industry wants the lighter treatment to be technically justified, not a
+  competitive distortion.
+  \item[Researchers.] Safety and materials researchers support proportionate
+  regulation but stress that tritium and activation hazards are real and that
+  fission data does not scale cleanly to fusion
+  \citep{iterstafetybasis,tritiumbreeding2018}.
+  \item[Public-interest groups.] Environmental and non-proliferation interests
+  press for firm tritium-discharge and waste controls, and warn against public
+  conflation of fusion with fission \citep{iaeatritiumharmonization,proportionate2024}.
+\end{description}
+
+The central fault line is \textbf{proportionate versus precautionary} regulation.
+The institutional centre of gravity is proportionate; the counter-pressure is a
+concern that tritium releases and large activated-material volumes are being
+under-weighted.
+
+% ----------------------------- EVIDENCE -----------------------------
+\section{Evidence synthesis}
+
+This section summarises findings from 20 sources. The full synthesis, with
+per-theme confidence ratings, is in \texttt{deliverables/02-evidence-synthesis.md}.
+
+\subsection{Fusion's hazard profile differs fundamentally from fission}
+There is no fissile material, no self-sustaining chain reaction, and no meltdown
+pathway; the reaction self-terminates in seconds
+\citep{iterstafetybasis,ukfusionregfactsheet}. This is high-confidence and is the
+load-bearing claim behind proportionate regulation. The important caveat from the
+peer-reviewed literature is that ``inherently safer'' is not ``risk-free'': real
+hazards persist across build, operation, and decommissioning \citep{proportionate2024}.
+
+\subsection{Tritium is the defining radiological control problem}
+Tritium's radiotoxicity is low, but releases must be tightly limited, and a
+commercial plant must breed its own tritium in a lithium blanket, creating a
+closed fuel cycle whose containment dominates safety design
+\citep{tritiumbreeding2018,iaeatecdoc2049}. Accidental atmospheric tritium
+release is the modelled worst case, which is why the IAEA is harmonising
+tritium-release models across states \citep{iaeatritiumharmonization}.
+
+\subsection{Activated waste is smaller and shorter-lived, but not zero}
+Most fusion waste is low-level waste from replacing neutron-activated in-vessel
+components \citep{radwasterecycling2023}. Comparative analysis finds fusion waste
+less hazardous than fast-fission waste. A live debate is whether fusion should
+default to land-based disposal or move toward recycling and clearance
+\citep{radwasterecycling2023}. Material-response uncertainty means real waste
+volumes carry genuine modelling risk \citep{tritiumbreeding2018}.
+
+\subsection{The US route: byproduct material under 10 CFR Part 30}
+After weighing three options, the NRC voted in 2023 to regulate fusion under the
+byproduct-material framework used for particle accelerators, not the reactor
+framework \citep{nrc2023vote,nrc2023frnotice,cfr10part30}. In February 2026 it
+published a proposed rule extending that framework to fusion machines, focusing
+on tritium and activation products rather than the machine as a reactor
+\citep{nrc2026proposedrule,orrick2026}.
+
+\subsection{The UK route: no nuclear site licence}
+The UK amended the Nuclear Installations Act 1965 to confirm fusion needs no
+nuclear site licence, on the explicit ground that such licensing would be
+disproportionate \citep{ukfusionregfactsheet}. Fusion is regulated by the
+Environment Agency and HSE \citep{ukenvagency2022}, tied to an industrial goal of
+a prototype plant by 2040 \citep{uktowardsfusion2023}, with siting handled via a
+draft National Policy Statement \citep{uken8nps2026}.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}lXX@{}}
+\toprule
+ & \textbf{United States} & \textbf{United Kingdom} \\
+\midrule
+Legal mechanism & Byproduct-material rule (10 CFR Part 30) & Exclusion from nuclear site licence (amended Nuclear Installations Act 1965) \\
+Lead regulator & Nuclear Regulatory Commission & Environment Agency + Health and Safety Executive \\
+What is regulated & The radioactive materials (tritium, activation products) & Environmental discharges and worker/public safety \\
+Status & Proposed rule published Feb 2026 & Position in law; siting NPS (EN-8) in consultation \\
+Underlying principle & Proportionate to hazard; fusion $\neq$ fission & Proportionate to hazard; fusion $\neq$ fission \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\noindent The mechanisms differ, but the destination is identical: both
+jurisdictions reject fission-style licensing for fusion
+\citep{nrc2023vote,ukfusionregfactsheet}. This convergence strengthens the case
+that the proportionate principle is durable rather than a single-country quirk.
+
+\subsection{International harmonisation is early but active}
+The IAEA held its first technical meeting on fusion safety and regulation in 2023
+\citep{iaea2023meeting}, and the Agile Nations group (UK, Japan, Canada) issued
+joint recommendations for hazard-based frameworks \citep{agilenations2023}.
+Unlike fission, fusion has no mature international safety-standards regime yet
+\citep{iaeafusionsafety}.
+
+\subsection{Commercialisation is plausibly near-term}
+Private firms target the early 2030s; the CRS warns that real scientific and
+engineering hurdles remain \citep{crs2026fusion}. Designing safety cases for
+first-of-a-kind systems with limited operating experience is itself a challenge;
+technology-agnostic Safety-in-Design methods are proposed
+\citep{sidmethodology2026}.
+
+% ----------------------------- RISK REGISTER -----------------------------
+\section{Risk and uncertainty register}
+
+The full register is in \texttt{deliverables/03-risk-uncertainty-register.md}.
+The brief asks specifically for what is known, contested, and unknown.
+
+\begin{description}[leftmargin=1.2em]
+  \item[Known --- act confidently.] No chain reaction, meltdown, or long-lived
+  high-level waste; tritium and activation are the real hazards; both the US and
+  UK have committed to proportionate, fission-distinct regimes; a too-heavy
+  regime carries real economic cost
+  \citep{iterstafetybasis,ukfusionregfactsheet,nrc2023vote,crs2026fusion}.
+  \item[Contested --- design for adaptability.] Whether the light regimes
+  adequately bound tritium discharge and activated-waste handling; whether waste
+  should be disposed of or recycled; how to build safety cases with little
+  operating experience
+  \citep{iaeatritiumharmonization,radwasterecycling2023,sidmethodology2026}.
+  \item[Unknown --- resolve by monitoring.] Real activation inventories and waste
+  volumes; the date and dominant technology of first grid connection; long-run
+  performance of closed deuterium--tritium fuel cycles at scale
+  \citep{tritiumbreeding2018,crs2026fusion,iaeatecdoc2049}.
+\end{description}
+
+The two highest-impact risks point in opposite directions: over-regulation (R1)
+would stall a low-hazard industry, while under-regulation (R2) could miss a
+hazard and trigger a confidence shock. Because several key parameters are
+\emph{unknown} rather than merely contested, a fixed one-shot regime is poorly
+suited to the problem.
+
+% ----------------------------- OPTIONS -----------------------------
+\section{Policy option appraisal}
+
+Four options were scored against six weighted criteria using a Multi-Criteria
+Decision Analysis (MCDA). The scoring is reproducible via
+\texttt{verification/mcda\_score.py}; full pros, cons, and second-order effects
+are in \texttt{deliverables/04-policy-option-appraisal.md}.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}lXcccc@{}}
+\toprule
+\textbf{Criterion (weight)} & & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} \\
+\midrule
+Safety (30)            & & 9 & 5 & 8 & 7 \\
+Proportionality (20)   & & 2 & 9 & 8 & 6 \\
+Innovation / speed (15)& & 2 & 9 & 7 & 4 \\
+Adaptability (15)      & & 4 & 4 & 9 & 6 \\
+Public trust (10)      & & 7 & 4 & 8 & 7 \\
+Int'l coherence (10)   & & 5 & 4 & 7 & 9 \\
+\midrule
+\textbf{Weighted /100} & & \textbf{5.20} & \textbf{6.05} & \textbf{7.90} & \textbf{6.40} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{description}[leftmargin=1.2em]
+  \item[A --- Full fission-equivalent licensing.] Maximum assurance, but
+  disproportionate, slow, and costly; risks driving developers offshore and
+  entrenching the misleading ``fusion = fission'' framing.
+  \item[B --- Light byproduct-only regime.] Fast and well-matched to the dominant
+  hazard \citep{nrc2026proposedrule}, but thin on facility oversight and waste
+  routes; vulnerable to a confidence shock \citep{iaeatritiumharmonization}.
+  \item[C --- Proportionate, adaptive, review-gated framework (recommended).]
+  Keeps the light byproduct core and adds environmental discharge control, worker
+  safety, waste-clearance routes \citep{radwasterecycling2023}, and mandatory
+  periodic review tied to new data and IAEA milestones. Highest on
+  safety-adjusted proportionality and adaptability.
+  \item[D --- International-harmonisation-first.] Best long-run coherence
+  \citep{agilenations2023}, but IAEA standards are nascent and waiting forfeits
+  near-term certainty \citep{iaeafusionsafety,crs2026fusion}.
+\end{description}
+
+A sensitivity check (swinging each weight by $\pm5$) leaves Option C top in every
+scenario tested.
+
+% ----------------------------- RECOMMENDATION -----------------------------
+\section{Recommendation and implementation}
+
+\keybox{\textbf{Recommendation: adopt Option C} --- a proportionate but adaptive,
+review-gated framework. It preserves the fission-distinct stance the US and UK
+have already chosen, while engineering in the adaptability the evidence demands.}
+
+Practical steps for a jurisdiction adopting Option C:
+
+\begin{enumerate}[leftmargin=1.5em]
+  \item \textbf{Keep the proportionate core.} Regulate the radioactive materials
+  (tritium, activation products), not the machine as a reactor
+  \citep{nrc2026proposedrule,ukfusionregfactsheet}.
+  \item \textbf{Add explicit controls.} Set tritium discharge limits and
+  monitoring, worker-dose limits, emergency planning, and authorised
+  waste-clearance and recycling routes \citep{iaeatritiumharmonization,radwasterecycling2023}.
+  \item \textbf{Build in review gates.} Mandate scheduled reviews (for example
+  every 3--5 years) triggered by new activation and tritium data and by IAEA
+  harmonisation milestones \citep{iaea2023meeting,tritiumbreeding2018}.
+  \item \textbf{Invest in regulator capability.} Fund fusion-specific expertise
+  in the lead regulators so oversight can scale with the industry
+  \citep{ukenvagency2022,sidmethodology2026}.
+  \item \textbf{Lead, don't just follow, on harmonisation.} Engage the IAEA and
+  Agile Nations process to shape common standards rather than inherit them
+  \citep{agilenations2023}.
+\end{enumerate}
+
+This path lets policymakers give developers the certainty they need now, while
+keeping the regime honest about what is still unknown.
+
+\subsection{Indicative implementation timeline}
+Option C can be sequenced without delaying developers' early-2030s targets:
+
+\begin{description}[leftmargin=1.4em,style=nextline]
+  \item[Year 0--1.] Adopt the proportionate byproduct / non-site-licence core in
+  primary rules; publish interim tritium-discharge and worker-dose limits
+  \citep{nrc2026proposedrule,ukfusionregfactsheet}.
+  \item[Year 1--2.] Stand up fusion-specific capability in the lead regulators;
+  authorise initial waste-clearance and recycling routes
+  \citep{ukenvagency2022,radwasterecycling2023}.
+  \item[Year 2--3.] Align reporting with IAEA tritium-release modelling and Agile
+  Nations recommendations \citep{iaeatritiumharmonization,agilenations2023}.
+  \item[Year 3--5 (first review gate).] Re-test discharge limits and waste
+  classifications against the first commercial-scale activation data
+  \citep{tritiumbreeding2018}; tighten or relax in proportion to evidence.
+  \item[Every 3--5 years thereafter.] Repeat the review gate, keeping the regime
+  matched to a maturing technology.
+\end{description}
+
+% ----------------------------- METHODOLOGY -----------------------------
+\section{Methodology and notes on sources}
+
+\textbf{Approach.} This briefing follows the UK Government Analysis Function
+sequence: define the question, map stakeholders, synthesise evidence, separate
+known/contested/unknown, appraise options, and recommend. Options were scored by
+Multi-Criteria Decision Analysis with explicit, published weights, and the
+scoring is reproducible from a script.
+
+\textbf{Source base.} Twenty sources were used, spanning three classes: (i)
+official and government material (NRC rulemaking and Federal Register notices, the
+US Code of Federal Regulations, UK government strategy and legislation factsheets,
+and a Congressional Research Service report); (ii) IAEA technical and convening
+documents; and (iii) peer-reviewed literature (Philosophical Transactions of the
+Royal Society A, the American Nuclear Society's \emph{Fusion Science and
+Technology}, and the Springer \emph{Journal of Fusion Energy}). This mix exceeds
+the requirement of fifteen peer-reviewed or official sources.
+
+\textbf{Honesty and limitations.} This is a student-level briefing, not an
+official regulatory instrument. Some commercialisation figures (for example,
+total private investment) come from secondary reporting and are flagged as
+indicative. Where activation inventories, waste volumes, or commercial dates are
+genuinely unknown, the briefing says so rather than implying false precision.
+Every substantive claim is tied to a numbered reference below.
+
+% ----------------------------- REFERENCES -----------------------------
+\newpage
+\section*{References}
+\addcontentsline{toc}{section}{References}
+\renewcommand{\refname}{}
+\vspace{-2.5em}
+\bibliographystyle{unsrtnat}
+\bibliography{../references}
+
+\end{document}

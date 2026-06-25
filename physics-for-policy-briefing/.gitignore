@@ -1,0 +1,18 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Preview / scratch images
+preview*.png
+*.tmp
+
+# Python
+__pycache__/
+*.pyc
