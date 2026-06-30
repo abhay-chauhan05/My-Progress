@@ -1,0 +1,6 @@
+# Optional Deep-Learning extras for the ResNet wind-direction model.
+# Install with:  pip install -r requirements-ml.txt
+# The project runs fully without these (it falls back to the local-gradient
+# wind-direction retriever); install them to train / run the CNN.
+torch>=2.1
+torchvision>=0.16

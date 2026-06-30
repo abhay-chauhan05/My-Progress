@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ocean Wind-Field Viewer · Sentinel-1 SAR</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root { --panel: #11243a; --accent: #3fa7ff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, "Segoe UI", Roboto, sans-serif; color: #eaf2fb; }
+    #map { position: absolute; inset: 0; }
+    .controls {
+      position: absolute; z-index: 1000; top: 12px; left: 12px;
+      background: rgba(17,36,58,.94); padding: 14px 16px; border-radius: 10px;
+      width: 290px; box-shadow: 0 6px 24px rgba(0,0,0,.45);
+    }
+    .controls h1 { font-size: 15px; margin: 0 0 10px; color: var(--accent); }
+    label { display: block; font-size: 12px; margin: 9px 0 3px; opacity: .85; }
+    select, input { width: 100%; padding: 7px; border-radius: 6px;
+      border: 1px solid #2c4a6b; background: #0c1a2b; color: #eaf2fb; }
+    button { width: 100%; margin-top: 12px; padding: 9px; border: 0; border-radius: 6px;
+      background: var(--accent); color: #04243f; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    .stats { margin-top: 12px; font-size: 12px; line-height: 1.5; border-top: 1px solid #2c4a6b; padding-top: 10px; }
+    .legend { position: absolute; z-index: 1000; bottom: 18px; left: 12px;
+      background: rgba(17,36,58,.94); padding: 10px 12px; border-radius: 10px; font-size: 11px; }
+    .bar { height: 12px; width: 220px; border-radius: 3px;
+      background: linear-gradient(to right,#000080,#0000ff,#00ffff,#00ff00,#ffff00,#ff8000,#ff0000); }
+    .bar-labels { display: flex; justify-content: space-between; margin-top: 3px; }
+    .muted { opacity: .7; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="controls">
+    <h1>Sentinel-1 Ocean Wind Field</h1>
+    <label>Study area</label>
+    <select id="region">
+      <option value="tamilnadu">Tamil Nadu coast</option>
+      <option value="gujarat">Gujarat coast</option>
+    </select>
+
+    <label>Acquisition date</label>
+    <input type="date" id="date" />
+
+    <label>Grid spacing (km)</label>
+    <input type="number" id="grid" value="4" min="1" max="20" step="0.5" />
+
+    <button id="go">Retrieve wind field</button>
+
+    <div class="stats" id="stats">
+      <span class="muted">Pick a region and date, then retrieve.</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div>wind speed (m/s)</div>
+    <div class="bar"></div>
+    <div class="bar-labels"><span>0</span><span>6</span><span>12+</span></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const REGIONS = {
+      tamilnadu: { center: [9.5, 79.2], zoom: 8 },
+      gujarat:   { center: [21.7, 70.2], zoom: 8 },
+    };
+
+    const map = L.map("map").setView(REGIONS.tamilnadu.center, REGIONS.tamilnadu.zoom);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors", maxZoom: 12,
+    }).addTo(map);
+
+    let layer = L.layerGroup().addTo(map);
+
+    // Default date.
+    document.getElementById("date").value = "2024-01-15";
+
+    function speedColor(s) {
+      // jet-like ramp 0..12 m/s
+      const t = Math.max(0, Math.min(1, s / 12));
+      const stops = [[0,0,128],[0,0,255],[0,255,255],[0,255,0],[255,255,0],[255,128,0],[255,0,0]];
+      const x = t * (stops.length - 1);
+      const i = Math.floor(x), f = x - i;
+      const a = stops[i], b = stops[Math.min(i + 1, stops.length - 1)];
+      const c = a.map((v, k) => Math.round(v + (b[k] - v) * f));
+      return `rgb(${c[0]},${c[1]},${c[2]})`;
+    }
+
+    // Build an arrow (shaft + V-shaped head) for a wind vector at lat/lon.
+    function arrow(lat, lon, u, v, speed, kmScale) {
+      const color = speedColor(speed);
+      const degLat = (v / 12) * kmScale / 111;
+      const degLon = (u / 12) * kmScale / (111 * Math.cos(lat * Math.PI / 180));
+      const tail = [lat, lon];
+      const tip = [lat + degLat, lon + degLon];
+
+      const ang = Math.atan2(degLat, degLon);     // direction the arrow points
+      const headLen = Math.hypot(degLat, degLon) * 0.35 + 1e-4;
+      const left = [
+        tip[0] - headLen * Math.sin(ang + Math.PI / 6),
+        tip[1] - headLen * Math.cos(ang + Math.PI / 6),
+      ];
+      const right = [
+        tip[0] - headLen * Math.sin(ang - Math.PI / 6),
+        tip[1] - headLen * Math.cos(ang - Math.PI / 6),
+      ];
+
+      const opts = { color, weight: 2, opacity: 0.9 };
+      const g = L.layerGroup([
+        L.polyline([tail, tip], opts),
+        L.polyline([left, tip, right], opts),
+      ]);
+      return g.bindTooltip(`${speed.toFixed(1)} m/s`, { sticky: true });
+    }
+
+    async function retrieve() {
+      const region = document.getElementById("region").value;
+      const date = document.getElementById("date").value;
+      const grid = document.getElementById("grid").value;
+      const btn = document.getElementById("go");
+      const stats = document.getElementById("stats");
+
+      btn.disabled = true; btn.textContent = "Retrieving…";
+      stats.innerHTML = '<span class="muted">Running CMOD5.N inversion…</span>';
+      layer.clearLayers();
+
+      const v = REGIONS[region];
+      map.setView(v.center, v.zoom);
+
+      try {
+        const url = `/windfield.geojson?date=${date}&region=${region}&grid_km=${grid}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(await res.text());
+        const gj = await res.json();
+        const feats = gj.features || [];
+
+        let sMin = 99, sMax = 0, sSum = 0;
+        feats.forEach(f => {
+          const [lon, lat] = f.geometry.coordinates;
+          const p = f.properties;
+          arrow(lat, lon, p.u, p.v, p.speed, grid * 1.2).addTo(layer);
+          sMin = Math.min(sMin, p.speed); sMax = Math.max(sMax, p.speed); sSum += p.speed;
+        });
+
+        const n = feats.length;
+        stats.innerHTML = n === 0
+          ? '<span class="muted">No ocean vectors in this area.</span>'
+          : `<b>${n}</b> wind vectors<br>` +
+            `source: ${gj.metadata.source}<br>` +
+            `speed: ${sMin.toFixed(1)}–${sMax.toFixed(1)} m/s (mean ${(sSum/n).toFixed(1)})<br>` +
+            `<a style="color:var(--accent)" target="_blank" ` +
+            `href="/windfield.png?date=${date}&region=${region}&grid_km=${grid}">open quiver map ↗</a>`;
+      } catch (e) {
+        stats.innerHTML = `<span style="color:#ff8080">Error: ${e.message}</span>`;
+      } finally {
+        btn.disabled = false; btn.textContent = "Retrieve wind field";
+      }
+    }
+
+    document.getElementById("go").addEventListener("click", retrieve);
+    retrieve();
+  </script>
+</body>
+</html>

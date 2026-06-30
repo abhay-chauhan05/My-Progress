@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ocean-windfield"
+version = "1.0.0"
+description = "Ocean wind-field estimation from Sentinel-1 SAR imagery over Indian coastal areas for wind-farm planning"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "CEC Open Project Team" }]
+keywords = ["SAR", "Sentinel-1", "wind", "CMOD5N", "remote-sensing", "ocean"]
+
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "pydantic>=2.6",
+    "pydantic-settings>=2.2",
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "global-land-mask>=1.0.0",
+    "python-dateutil>=2.8",
+    "httpx>=0.27",
+    "Pillow>=10.0",
+]
+
+[project.optional-dependencies]
+ml = ["torch>=2.1", "torchvision>=0.16"]
+sentinel = ["pystac-client>=0.7", "requests>=2.31", "rasterio>=1.3", "xarray>=2024.1"]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+windfield = "windfield.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["windfield*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
